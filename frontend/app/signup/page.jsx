@@ -1,6 +1,7 @@
 'use client'
-import { useState } from "react"
+import {useEffect, useState} from "react"
 import { useRouter } from "next/navigation"
+import Web3 from 'web3'
 const SignIn = () => {
   const router=useRouter();
   const [fullName,setFullName]=useState('')
@@ -8,24 +9,37 @@ const SignIn = () => {
   const [password,setPassword]=useState('')
   const [showDropdown, setShowDropdown] = useState(false);
   const [role, setRole] = useState('');
+  const [address , setAddress] = useState("")
+  const web3 = new Web3(window.ethereum);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+  useEffect(() => {
 
+    async function func()
+    {
+      await window.ethereum.enable()
+      const accounts = await web3.eth.getAccounts();
+      const userAddress = accounts[0];
+      setAddress(userAddress)
+    }
+    func()
+  } , [])
   async function handleSubmit(e){
     e.preventDefault()
-    if(!fullName||!email||!password){
+    if(!fullName||!email||!password||!address||!role){
       return;
     }
     try {
+      console.log(address)
       const res=await fetch('/api/signup',{
         method:'POST',
         headers:{
           "Content-Type":"application/json"
         },
         body:JSON.stringify({
-          fullName,email,password,role
+          fullName,email,password,role,address
         })
       }
       )

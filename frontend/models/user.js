@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
   role:{
     type:String,
     required:true,
+  },
+  address:{
+    type:String,
+    req:true,
   }
 },{timestamps:true});
 
