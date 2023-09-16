@@ -83,3 +83,7 @@
   align-items: center;
   row-gap: 5vh;
 }
+
+#prod-form>input{
+  border: black 1px solid;
+}
