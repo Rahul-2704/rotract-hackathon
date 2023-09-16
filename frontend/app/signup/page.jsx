@@ -2,6 +2,8 @@
 import {useEffect, useState} from "react"
 import { useRouter } from "next/navigation"
 import Web3 from 'web3'
+import mongoose from "mongoose"
+import { User } from "@/models/user"
 const SignIn = () => {
   const router=useRouter();
   const [fullName,setFullName]=useState('')
@@ -27,7 +29,16 @@ const SignIn = () => {
     func()
   } , [])
   async function handleSubmit(e){
-    e.preventDefault()
+    e.preventDefault();
+    const userId = req.params;
+    const existingUser = await User.find({
+      _id: userId
+    });
+    console.log(existingUser)
+    if(existingUser){
+      router.push('/dashboard/production')
+    }
+    else{
     if(!fullName||!email||!password||!address||!role){
       return;
     }
@@ -51,10 +62,12 @@ const SignIn = () => {
       }else{
         console.log("User Registration failed.")
       }
-    } catch (error) {
+    }
+   catch (error) {
       console.log(error)
     }
   }
+}
   return (
     <section>
   <div className="grid grid-cols-1 lg:grid-cols-2">
