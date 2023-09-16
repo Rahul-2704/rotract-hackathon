@@ -1,9 +1,9 @@
-import Image from 'next/image'
+import Manufacturer from "@/app/dashboard/Producer/page";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Home Page</h1>
-    </main>
+      <div>
+          <Manufacturer />
+      </div>
   )
 }
