@@ -18,7 +18,7 @@ const Header = () => {
             <Link href='/protected/distributor'>Distributor</Link>
           </li>
           <li>
-            <button className='border border-solid border-black'>Sign In</button>
+            <Link href={'/signup'}>Sign In</Link>
           </li>
         </ul>
       </nav>
