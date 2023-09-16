@@ -4,7 +4,8 @@ require('dotenv').config();
 const app = express();
 const port = 5000;
 
-mongoose.connect(
+function connect(){
+    mongoose.connect(
     process.env.MONGO_CONNECTION,
     {
         useNewUrlParser: true,
@@ -14,6 +15,7 @@ mongoose.connect(
 }).catch((err) => {
     console.log(err.message);
 });
+}
 
 app.get('/', (req, res) => {
     res.send('Hello World');
@@ -22,3 +24,4 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('App is running on port ' + port);
 });
+export default connect

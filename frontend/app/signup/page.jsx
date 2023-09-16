@@ -4,6 +4,9 @@ const SignIn = () => {
   const [name,setName]=useState('')
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
+  async function handleSubmit(){
+    
+  }
   return (
     <section>
   <div class="grid grid-cols-1 lg:grid-cols-2">
@@ -31,6 +34,8 @@ const SignIn = () => {
               </label>
               <div class="mt-2">
                 <input
+                  value={name}
+                  onChange={(e)=>setName(e.target.value)}
                   class="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                   type="text"
                   placeholder="Full Name"
@@ -45,6 +50,8 @@ const SignIn = () => {
               </label>
               <div class="mt-2">
                 <input
+                  value={email}
+                  onChange={(e)=>setEmail(e.target.value)}
                   class="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                   type="email"
                   placeholder="Email"
@@ -66,6 +73,8 @@ const SignIn = () => {
                 <input
                   class="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                   type="password"
+                  value={password}
+                  onChange={(e)=>setPassword(e.target.value)}
                   placeholder="Password"
                   id="password"
                 />
@@ -96,7 +105,7 @@ const SignIn = () => {
             </div>
           </div>
         </form>
-        <div class="mt-3 space-y-3">
+        {/* <div class="mt-3 space-y-3">
           <button
             type="button"
             class="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
@@ -139,7 +148,10 @@ const SignIn = () => {
         alt=""
       />
     </div>
+  </div> */}
   </div>
+  </div>
+</div>
 </section>
 
   )

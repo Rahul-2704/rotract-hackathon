@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import SignInButton from './SignInButton'
 
 const Header = () => {
   return (
@@ -19,7 +18,7 @@ const Header = () => {
             <Link href='/protected/distributor'>Distributor</Link>
           </li>
           <li>
-            <SignInButton />
+            <button className='border border-solid border-black'>Sign In</button>
           </li>
         </ul>
       </nav>
