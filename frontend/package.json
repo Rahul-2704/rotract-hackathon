@@ -16,12 +16,17 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "autoprefixer": "10.4.15",
+<<<<<<< HEAD
     "class-variance-authority": "^0.7.0",
+=======
+    "next": "^13.4.19",
+>>>>>>> 858a2d7d1575f1c51ed83cae5006c1b7440b458a
     "clsx": "^2.0.0",
     "lucide-react": "^0.277.0",
     "next": "13.4.19",
     "next-auth": "^4.23.1",
     "postcss": "8.4.29",
+<<<<<<< HEAD
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.46.1",
@@ -29,5 +34,10 @@
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.2"
+=======
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "3.3.3"
+>>>>>>> 858a2d7d1575f1c51ed83cae5006c1b7440b458a
   }
 }
