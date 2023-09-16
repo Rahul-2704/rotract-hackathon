@@ -21,7 +21,6 @@ export default function RootLayout({ children }) {
         <Provider>
           <Header />
           <main className='grow'>{children}</main>
-          <Footer />
         </Provider>
       </body>
     </html>
