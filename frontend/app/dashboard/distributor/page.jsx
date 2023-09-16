@@ -1,9 +1,7 @@
 'use client'
 import React from 'react'
-import { useRouter } from 'next/navigation'
 
-function Producer() {
-  const router = useRouter();
+function Distributor() {
   return (
     <div>
       <section className="mx-auto w-full max-w-7xl px-4 py-4">
@@ -11,17 +9,8 @@ function Producer() {
     <div>
       <h2 className="text-lg font-semibold">Medicine Batch</h2>
       <p className="mt-1 text-sm text-gray-700">
-        This is a list of all batches. You can add new batches.
+        This is a list of all batches.
       </p>
-    </div>
-    <div>
-      <button
-        type="button"
-        onClick={()=>router.push('/addBatchProducer')}
-        className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-      >
-        Add new Batch
-      </button>
     </div>
   </div>
   <div className="mt-6 flex flex-col">
@@ -99,4 +88,4 @@ function Producer() {
   )
 }
 
-export default Producer
+export default Distributor

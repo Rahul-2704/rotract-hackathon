@@ -1,9 +1,14 @@
-import Manufacturer from "@/app/dashboard/Producer/page";
 
+import Image from "next/image";
 export default function Home() {
   return (
       <div>
-          <Manufacturer />
+      <Image
+      src="/image.png"
+      width={500}
+      height={500}
+      alt="Picture of the author"
+    />
       </div>
   )
 }
