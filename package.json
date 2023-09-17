@@ -5,6 +5,9 @@
     "@metamask/detect-provider": "^2.0.0",
     "@metamask/sdk": "^0.6.2",
     "@mui/material": "^5.14.9",
-    "next": "^13.4.19"
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "dotenv": "^16.3.1",
+    "next": "^13.4.19",
+    "solc": "^0.8.21"
   }
 }

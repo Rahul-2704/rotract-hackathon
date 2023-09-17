@@ -1,22 +1,56 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
-import QRCode from "qrcode";
+import {ethers} from "ethers";
+import Track from "../abi/Tracking.json";
+import Web3 from 'web3'
 export default function Producer() {
   const [batchID, setBatchID] = useState();
   const [medName, setMedName] = useState("");
   const [sealOn, setSealOn] = useState(true);
   const [count, setCount] = useState();
   const [src, setSrc] = useState();
-  const handleSubmit = (e) => {
+  const [address,setAddress] = useState();
+  async function func()
+  {
+    await window.ethereum.enable()
+    const accounts = await web3.eth.getAccounts();
+    const userAddress = accounts[0];
+    setAddress(userAddress)
+  }
+  func()
+
+  const web3 = new Web3(window.ethereum || "https://sepolia.infura.io/v3/b4c4e8b157d84818a775acd08ab8ecfb")
+  const contractAddress = '0x5E3059345efd6EdD4aFC3408B0166954f0656316'; // Replace with your contract's address
+  const myContract = new web3.eth.Contract(Track.abi, contractAddress);
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const data = {
       batchID: batchID,
       medName: medName,
-      sealOn: sealOn,
+      sealOn: true,
       count: count,
     };
     console.log(JSON.stringify(data));
+    console.log(address);
+    myContract.methods.addBatch(batchID, medName, sealOn, count)
+        .send({ from: address }) // Replace with the sender's Ethereum wallet address
+        .on('transactionHash', (hash) => {
+          // This callback is triggered when the transaction is sent
+          console.log(`Transaction hash: ${hash}`);
+        })
+        .on('receipt', (receipt) => {
+          // This callback is triggered when the transaction is confirmed
+          console.log('Transaction receipt:', receipt);
+        })
+        .on('error', (error) => {
+          // This callback is triggered if there's an error with the transaction
+          console.error('Transaction error:', error);
+        });
+
     axios
       .get(
         `http://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
