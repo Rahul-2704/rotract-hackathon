@@ -1,22 +1,50 @@
 "use client";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
-import QRCode from "qrcode";
-export default function Producer() {
-  const [batchID, setBatchID] = useState();
+import {ethers} from "ethers";
+import Track from "../abi/Tracking.json";
+import Web3 from 'web3'
+import {useAccount , useContractWrite , useWaitForTransaction , usePrepareContractWrite} from "wagmi";
+const Producer = () => {
+  const [batchID, setBatchID] = useState(0);
   const [medName, setMedName] = useState("");
   const [sealOn, setSealOn] = useState(true);
-  const [count, setCount] = useState();
+  const [count, setCount] = useState(0);
   const [src, setSrc] = useState();
-  const handleSubmit = (e) => {
+  const {isConnected , address} = useAccount();
+
+  const web3 = new Web3(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_SEPOLIA_INFURA_URL))
+  const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDR; // Replace with your contract's address
+  const myContract = new web3.eth.Contract(Track.abi, contractAddress);
+  const { config } = usePrepareContractWrite({
+    address: process.env.NEXT_PUBLIC_CONTRACT_ADDR,
+    abi: Track["abi"],
+    functionName: 'addBatch',
+    args : [batchID , medName , Boolean(true) , count],
+    enabled : Boolean(true)
+  })
+  const { d, write } = useContractWrite(config)
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: d?.hash,
+  })
+
+  async function handleSubmit(e) {
     e.preventDefault();
+
     const data = {
       batchID: batchID,
       medName: medName,
-      sealOn: sealOn,
+      sealOn: true,
       count: count,
     };
     console.log(JSON.stringify(data));
+    console.log(address);
+
+
+
+    write();
+    console.log(isSuccess)
+
     axios
       .get(
         `http://api.qrserver.com/v1/create-qr-code/?data=${JSON.stringify(
@@ -136,3 +164,5 @@ export default function Producer() {
     </div>
   );
 }
+
+export default Producer
