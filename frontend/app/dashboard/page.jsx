@@ -7,7 +7,6 @@ const Dashboard = () => {
   const router=useRouter()
   return (
     <div>
-        <h2>Dashboard</h2>
         <div className='flex flex-col space-y-2'>
             {
               role==='producer' && (
