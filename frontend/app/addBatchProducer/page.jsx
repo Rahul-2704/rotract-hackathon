@@ -1,31 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {ethers} from "ethers";
 import Track from "../abi/Tracking.json";
 import Web3 from 'web3'
-export default function Producer() {
-  const [batchID, setBatchID] = useState();
+import {useAccount , useContractWrite , useWaitForTransaction , usePrepareContractWrite} from "wagmi";
+const Producer = () => {
+  const [batchID, setBatchID] = useState(0);
   const [medName, setMedName] = useState("");
   const [sealOn, setSealOn] = useState(true);
-  const [count, setCount] = useState();
+  const [count, setCount] = useState(0);
   const [src, setSrc] = useState();
-  const [address,setAddress] = useState();
-  async function func()
-  {
-    await window.ethereum.enable()
-    const accounts = await web3.eth.getAccounts();
-    const userAddress = accounts[0];
-    setAddress(userAddress)
-  }
-  func()
+  const {isConnected , address} = useAccount();
 
-  const web3 = new Web3(window.ethereum || "https://sepolia.infura.io/v3/b4c4e8b157d84818a775acd08ab8ecfb")
-  const contractAddress = '0x5E3059345efd6EdD4aFC3408B0166954f0656316'; // Replace with your contract's address
+  const web3 = new Web3(new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_SEPOLIA_INFURA_URL))
+  const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDR; // Replace with your contract's address
   const myContract = new web3.eth.Contract(Track.abi, contractAddress);
+  const { config } = usePrepareContractWrite({
+    address: process.env.NEXT_PUBLIC_CONTRACT_ADDR,
+    abi: Track["abi"],
+    functionName: 'addBatch',
+    args : [batchID , medName , Boolean(true) , count],
+    enabled : Boolean(true)
+  })
+  const { d, write } = useContractWrite(config)
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: d?.hash,
+  })
 
-
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const data = {
@@ -36,20 +39,11 @@ export default function Producer() {
     };
     console.log(JSON.stringify(data));
     console.log(address);
-    myContract.methods.addBatch(batchID, medName, sealOn, count)
-        .send({ from: address }) // Replace with the sender's Ethereum wallet address
-        .on('transactionHash', (hash) => {
-          // This callback is triggered when the transaction is sent
-          console.log(`Transaction hash: ${hash}`);
-        })
-        .on('receipt', (receipt) => {
-          // This callback is triggered when the transaction is confirmed
-          console.log('Transaction receipt:', receipt);
-        })
-        .on('error', (error) => {
-          // This callback is triggered if there's an error with the transaction
-          console.error('Transaction error:', error);
-        });
+
+
+
+    write();
+    console.log(isSuccess)
 
     axios
       .get(
@@ -170,3 +164,5 @@ export default function Producer() {
     </div>
   );
 }
+
+export default Producer
